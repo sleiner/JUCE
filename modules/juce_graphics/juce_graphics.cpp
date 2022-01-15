@@ -32,6 +32,8 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
+
 #define JUCE_CORE_INCLUDE_OBJC_HELPERS 1
 #define JUCE_CORE_INCLUDE_COM_SMART_PTR 1
 #define JUCE_CORE_INCLUDE_JNI_HELPERS 1
@@ -180,4 +182,5 @@
  {
    #include "native/freetype/FreeTypeAmalgam.c"
  }
+#endif
 #endif

@@ -32,7 +32,9 @@
 namespace juce
 {
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 Image JUCE_API getIconFromApplication (const String&, const int);
+#endif
 
 AudioProcessor::WrapperType PluginHostType::jucePlugInClientCurrentWrapperType = AudioProcessor::wrapperType_Undefined;
 std::function<bool (AudioProcessor&)> PluginHostType::jucePlugInIsRunningInAudioSuiteFn = nullptr;
@@ -70,6 +72,7 @@ bool PluginHostType::isInAAXAudioSuite (AudioProcessor& processor)
     return false;
 }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 Image PluginHostType::getHostIcon (int size) const
 {
     ignoreUnused (size);
@@ -86,6 +89,7 @@ Image PluginHostType::getHostIcon (int size) const
 
     return Image();
 }
+#endif
 
 const char* PluginHostType::getHostDescription() const noexcept
 {

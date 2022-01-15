@@ -61,7 +61,9 @@ public:
             Thread::setCurrentThreadName ("JUCE Plugin Message Thread");
 
             MessageManager::getInstance()->setCurrentThreadAsMessageThread();
+#if !defined(JUCE_DISABLE_GRAPHICS)
             XWindowSystem::getInstance();
+#endif
 
             threadInitialised.signal();
 

@@ -39,7 +39,9 @@
 #define JUCE_GRAPHICS_INCLUDE_COREGRAPHICS_HELPERS 1
 
 #include "juce_audio_processors.h"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include <juce_gui_extra/juce_gui_extra.h>
+#endif
 
 //==============================================================================
 #if JUCE_MAC
@@ -83,7 +85,7 @@ static bool arrayContainsPlugin (const OwnedArray<PluginDescription>& list,
 
 #endif
 
-#if JUCE_MAC
+#if JUCE_MAC && !defined(JUCE_DISABLE_GRAPHICS)
 
 //==============================================================================
 /*  This is an NSViewComponent which holds a long-lived NSView which acts
@@ -188,17 +190,23 @@ private:
 #include "format_types/juce_LegacyAudioParameter.cpp"
 #include "processors/juce_AudioProcessor.cpp"
 #include "processors/juce_AudioPluginInstance.cpp"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "processors/juce_AudioProcessorEditor.cpp"
+#endif
 #include "processors/juce_AudioProcessorGraph.cpp"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "processors/juce_GenericAudioProcessorEditor.cpp"
+#endif
 #include "processors/juce_PluginDescription.cpp"
 #include "format_types/juce_LADSPAPluginFormat.cpp"
 #include "format_types/juce_VSTPluginFormat.cpp"
 #include "format_types/juce_VST3PluginFormat.cpp"
 #include "format_types/juce_AudioUnitPluginFormat.mm"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "scanning/juce_KnownPluginList.cpp"
 #include "scanning/juce_PluginDirectoryScanner.cpp"
 #include "scanning/juce_PluginListComponent.cpp"
+#endif
 #include "processors/juce_AudioProcessorParameterGroup.cpp"
 #include "utilities/juce_AudioProcessorParameterWithID.cpp"
 #include "utilities/juce_RangedAudioParameter.cpp"

@@ -54,7 +54,12 @@
 #pragma once
 #define JUCE_AUDIO_PROCESSORS_H_INCLUDED
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include <juce_gui_basics/juce_gui_basics.h>
+#else
+#include <juce_data_structures/juce_data_structures.h>
+#include <juce_events/juce_events.h>
+#endif
 #include <juce_audio_basics/juce_audio_basics.h>
 
 //==============================================================================
@@ -121,7 +126,9 @@
 #include "utilities/juce_ExtensionsVisitor.h"
 #include "processors/juce_AudioProcessorParameter.h"
 #include "processors/juce_HostedAudioProcessorParameter.h"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "processors/juce_AudioProcessorEditorHostContext.h"
+#endif
 #include "processors/juce_AudioProcessorEditor.h"
 #include "processors/juce_AudioProcessorListener.h"
 #include "processors/juce_AudioProcessorParameterGroup.h"
@@ -129,17 +136,23 @@
 #include "processors/juce_PluginDescription.h"
 #include "processors/juce_AudioPluginInstance.h"
 #include "processors/juce_AudioProcessorGraph.h"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "processors/juce_GenericAudioProcessorEditor.h"
+#endif
 #include "format/juce_AudioPluginFormat.h"
 #include "format/juce_AudioPluginFormatManager.h"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "scanning/juce_KnownPluginList.h"
+#endif
 #include "format_types/juce_AudioUnitPluginFormat.h"
 #include "format_types/juce_LADSPAPluginFormat.h"
 #include "format_types/juce_VSTMidiEventList.h"
 #include "format_types/juce_VSTPluginFormat.h"
 #include "format_types/juce_VST3PluginFormat.h"
+#if !defined(JUCE_DISABLE_GRAPHICS)
 #include "scanning/juce_PluginDirectoryScanner.h"
 #include "scanning/juce_PluginListComponent.h"
+#endif
 #include "utilities/juce_AudioProcessorParameterWithID.h"
 #include "utilities/juce_RangedAudioParameter.h"
 #include "utilities/juce_AudioParameterFloat.h"

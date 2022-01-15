@@ -29,7 +29,7 @@ extern HWND juce_messageWindowHandle;
  bool juce_isRunningInUnity();
 #endif
 
-#if JUCE_MODULE_AVAILABLE_juce_gui_extra
+#if JUCE_MODULE_AVAILABLE_juce_gui_extra && !defined(JUCE_DISABLE_GRAPHICS)
  LRESULT juce_offerEventToActiveXControl (::MSG&);
 #endif
 
@@ -114,7 +114,7 @@ public:
 
         if (GetMessage (&m, nullptr, 0, 0) >= 0)
         {
-           #if JUCE_MODULE_AVAILABLE_juce_gui_extra
+           #if JUCE_MODULE_AVAILABLE_juce_gui_extra && !defined(JUCE_DISABLE_GRAPHICS)
             if (juce_offerEventToActiveXControl (m) != S_FALSE)
                 return true;
            #endif

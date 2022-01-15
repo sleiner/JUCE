@@ -28,6 +28,9 @@ namespace juce
 
 class AudioProcessorEditorListener;
 
+#if defined(JUCE_DISABLE_GRAPHICS)
+class JUCE_API AudioProcessorEditor;
+#else
 //==============================================================================
 /**
     Base class for the component that acts as the GUI for an AudioProcessor.
@@ -39,7 +42,7 @@ class AudioProcessorEditorListener;
 
     @tags{Audio}
 */
-class JUCE_API  AudioProcessorEditor  : public Component
+class JUCE_API AudioProcessorEditor : public Component
 {
 protected:
     //==============================================================================
@@ -62,7 +65,7 @@ public:
         This method is here to support legacy code, but it's easier to just use the
         AudioProcessorEditor::processor member variable directly to get this object.
     */
-    AudioProcessor* getAudioProcessor() const noexcept        { return &processor; }
+    AudioProcessor* getAudioProcessor() const noexcept { return &processor; }
 
     //==============================================================================
     /** Used by the setParameterHighlighting() method. */
@@ -138,7 +141,7 @@ public:
 
         @see setResizable
     */
-    bool isResizable() const noexcept      { return resizableByHost; }
+    bool isResizable() const noexcept { return resizableByHost; }
 
     /** This sets the maximum and minimum sizes for the window.
 
@@ -167,7 +170,7 @@ public:
 
         You can access this to change its properties.
     */
-    ComponentBoundsConstrainer* getConstrainer() noexcept           { return constrainer; }
+    ComponentBoundsConstrainer* getConstrainer() noexcept { return constrainer; }
 
     /** Sets the bounds-constrainer object to use for resizing and dragging this window.
 
@@ -192,14 +195,14 @@ public:
 
         The returned pointer is non-owning, so do not attempt to free it.
     */
-    AudioProcessorEditorHostContext* getHostContext() const noexcept          { return hostContext; }
+    AudioProcessorEditorHostContext* getHostContext() const noexcept { return hostContext; }
 
     /** Sets a context object that can be queried to find information that the host
         makes available to the plugin.
 
         You will only need to call this function if you are implementing a plugin host.
     */
-    void setHostContext (AudioProcessorEditorHostContext* context) noexcept   { hostContext = context; }
+    void setHostContext (AudioProcessorEditorHostContext* context) noexcept { hostContext = context; }
 
     /** The ResizableCornerComponent which is currently being used by this editor,
         or nullptr if it does not have one.
@@ -212,8 +215,8 @@ private:
     {
         AudioProcessorEditorListener (AudioProcessorEditor& e) : ed (e) {}
 
-        void componentMovedOrResized (Component&, bool, bool wasResized) override   { ed.editorResized (wasResized); }
-        void componentParentHierarchyChanged (Component&) override                  { ed.updatePeer(); }
+        void componentMovedOrResized (Component&, bool, bool wasResized) override { ed.editorResized (wasResized); }
+        void componentParentHierarchyChanged (Component&) override { ed.updatePeer(); }
 
         AudioProcessorEditor& ed;
 
@@ -233,12 +236,13 @@ private:
     std::unique_ptr<AudioProcessorEditorListener> resizeListener;
     bool resizableByHost = false;
     ComponentBoundsConstrainer defaultConstrainer;
-    ComponentBoundsConstrainer* constrainer = nullptr;
+    ComponentBoundsConstrainer* constrainer      = nullptr;
     AudioProcessorEditorHostContext* hostContext = nullptr;
     Component::SafePointer<Component> splashScreen;
     AffineTransform hostScaleTransform;
 
     JUCE_DECLARE_NON_COPYABLE (AudioProcessorEditor)
 };
+#endif
 
 } // namespace juce

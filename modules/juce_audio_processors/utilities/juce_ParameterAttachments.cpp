@@ -109,6 +109,7 @@ void ParameterAttachment::handleAsyncUpdate()
         setValue (parameter.convertFrom0to1 (lastValue));
 }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 //==============================================================================
 SliderParameterAttachment::SliderParameterAttachment (RangedAudioParameter& param,
                                                       Slider& s,
@@ -265,5 +266,6 @@ void ButtonParameterAttachment::buttonClicked (Button*)
 
     attachment.setValueAsCompleteGesture (button.getToggleState() ? 1.0f : 0.0f);
 }
+#endif
 
 } // namespace juce

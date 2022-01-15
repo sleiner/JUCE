@@ -207,8 +207,10 @@ public:
     bool isInterAppAudioConnected() const;
     /** Switches to the host application when Inter-App Audio is used on iOS. */
     void switchToHostApplication() const;
+#if !defined(JUCE_DISABLE_GRAPHICS)
     /** Gets the host app's icon when Inter-App Audio is used on iOS. */
     Image getHostIcon (int size) const;
+#endif
 
     //==============================================================================
     /** Returns the complete absolute path of the host application executable. */
