@@ -186,7 +186,9 @@ public:
         if (bypassParam != nullptr)
             bypassParam->removeListener (this);
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
         deleteActiveEditors();
+#endif
         juceFilter = nullptr;
         clearPresetsArray();
 
@@ -1464,6 +1466,7 @@ public:
     }
 
     //==============================================================================
+#if !defined(JUCE_DISABLE_GRAPHICS)
     class EditorCompHolder  : public Component
     {
     public:
@@ -1603,6 +1606,7 @@ public:
                 JuceUIViewClass::deleteEditor (ui);
         }
     }
+#endif
 
     //==============================================================================
     struct JuceUIViewClass  : public ObjCClass<NSView>
@@ -1611,16 +1615,21 @@ public:
         {
             addIvar<AudioProcessor*> ("filter");
             addIvar<JuceAU*> ("au");
+#if !defined(JUCE_DISABLE_GRAPHICS)
             addIvar<EditorCompHolder*> ("editor");
+#endif
 
             addMethod (@selector (dealloc),                     dealloc);
             addMethod (@selector (applicationWillTerminate:),   applicationWillTerminate);
+#if !defined(JUCE_DISABLE_GRAPHICS)
             addMethod (@selector (viewDidMoveToWindow),         viewDidMoveToWindow);
             addMethod (@selector (mouseDownCanMoveWindow),      mouseDownCanMoveWindow);
+#endif
 
             registerClass();
         }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
         static void deleteEditor (id self)
         {
             std::unique_ptr<EditorCompHolder> editorComp (getEditor (self));
@@ -1638,13 +1647,18 @@ public:
                 setEditor (self, nullptr);
             }
         }
+#endif
 
         static JuceAU* getAU (id self)                          { return getIvar<JuceAU*> (self, "au"); }
+#if !defined(JUCE_DISABLE_GRAPHICS)
         static EditorCompHolder* getEditor (id self)            { return getIvar<EditorCompHolder*> (self, "editor"); }
+#endif
 
         static void setFilter (id self, AudioProcessor* filter) { object_setInstanceVariable (self, "filter", filter); }
         static void setAU (id self, JuceAU* au)                 { object_setInstanceVariable (self, "au", au); }
+#if !defined(JUCE_DISABLE_GRAPHICS)
         static void setEditor (id self, EditorCompHolder* e)    { object_setInstanceVariable (self, "editor", e); }
+#endif
 
     private:
         static void dealloc (id self, SEL)
@@ -1663,6 +1677,7 @@ public:
         static void shutdown (id self)
         {
             [[NSNotificationCenter defaultCenter] removeObserver: self];
+#if !defined(JUCE_DISABLE_GRAPHICS)
             deleteEditor (self);
 
             jassert (activeUIs.contains (self));
@@ -1676,8 +1691,10 @@ public:
 
                 shutdownJuce_GUI();
             }
+#endif
         }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
         static void viewDidMoveToWindow (id self, SEL)
         {
             if (NSWindow* w = [(NSView*) self window])
@@ -1693,6 +1710,7 @@ public:
         {
             return NO;
         }
+#endif
     };
 
     //==============================================================================
@@ -1719,6 +1737,7 @@ public:
 
         static NSView* uiViewForAudioUnit (id, SEL, AudioUnit inAudioUnit, NSSize)
         {
+#if !defined(JUCE_DISABLE_GRAPHICS)
             void* pointers[2];
             UInt32 propertySize = sizeof (pointers);
 
@@ -1729,6 +1748,7 @@ public:
                     if (AudioProcessorEditor* editorComp = filter->createEditorIfNeeded())
                         return EditorCompHolder::createViewFor (filter, static_cast<JuceAU*> (pointers[1]), editorComp);
             }
+#endif
 
             return nil;
         }
@@ -1849,6 +1869,7 @@ private:
     AudioProcessorParameter* bypassParam = nullptr;
 
     //==============================================================================
+#if !defined(JUCE_DISABLE_GRAPHICS)
     static NSRect convertToHostBounds (NSRect pluginRect)
     {
         auto desktopScale = Desktop::getInstance().getGlobalScaleFactor();
@@ -1874,6 +1895,7 @@ private:
                            static_cast<CGFloat> (hostRect.size.width  / desktopScale),
                            static_cast<CGFloat> (hostRect.size.height / desktopScale));
     }
+#endif
 
     //==============================================================================
     void pullInputAudio (AudioUnitRenderActionFlags& flags, const AudioTimeStamp& timestamp, const UInt32 nFrames) noexcept

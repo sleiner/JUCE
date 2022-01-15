@@ -32,6 +32,8 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
+
 #define NS_FORMAT_FUNCTION(F,A) // To avoid spurious warnings from GCC
 
 #define JUCE_CORE_INCLUDE_OBJC_HELPERS 1
@@ -436,3 +438,4 @@ bool juce::isWindowOnCurrentVirtualDesktop (void* x)
 
 // Depends on types defined in platform-specific windowing files
 #include "mouse/juce_MouseCursor.cpp"
+#endif

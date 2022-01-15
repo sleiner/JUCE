@@ -53,8 +53,10 @@ AudioProcessor::~AudioProcessor()
     {
         const ScopedLock sl (activeEditorLock);
 
+        #if !defined(JUCE_DISABLE_GRAPHICS)
         // ooh, nasty - the editor should have been deleted before its AudioProcessor.
         jassert (activeEditor == nullptr);
+        #endif
     }
 
    #if JUCE_DEBUG && ! JUCE_DISABLE_AUDIOPROCESSOR_BEGIN_END_GESTURE_CHECKING
@@ -865,6 +867,7 @@ void AudioProcessor::audioIOChanged (bool busNumberChanged, bool channelNumChang
     processorLayoutsChanged();
 }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 //==============================================================================
 void AudioProcessor::editorBeingDeleted (AudioProcessorEditor* const editor) noexcept
 {
@@ -901,6 +904,7 @@ AudioProcessorEditor* AudioProcessor::createEditorIfNeeded()
 
     return ed;
 }
+#endif
 
 //==============================================================================
 void AudioProcessor::getCurrentProgramStateInformation (juce::MemoryBlock& destData)

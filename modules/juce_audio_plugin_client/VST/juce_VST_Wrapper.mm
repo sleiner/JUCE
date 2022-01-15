@@ -82,6 +82,7 @@ void initialiseMacVST()
    #endif
 }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 JUCE_API void* attachComponentToWindowRefVST (Component* comp, void* parentWindowOrView, bool isNSView);
 void* attachComponentToWindowRefVST (Component* comp, void* parentWindowOrView, bool isNSView)
 {
@@ -310,6 +311,7 @@ bool forwardCurrentKeyEventToHostVST (Component* comp, bool isNSView)
     ignoreUnused (comp, isNSView);
     return false;
 }
+#endif
 
 } // (juce namespace)
 

@@ -1220,7 +1220,9 @@ public:
     struct TrackProperties
     {
         String name;    // The name of the track - this will be empty if the track name is not known
+        #if !defined(JUCE_DISABLE_GRAPHICS)
         Colour colour;  // The colour of the track - this will be transparentBlack if the colour is not known
+        #endif
 
         // other properties may be added in the future
     };
@@ -1463,7 +1465,9 @@ private:
 
     //==============================================================================
     Array<AudioProcessorListener*> listeners;
+    #if !defined(JUCE_DISABLE_GRAPHICS)
     Component::SafePointer<AudioProcessorEditor> activeEditor;
+    #endif
     double currentSampleRate = 0;
     int blockSize = 0, latencySamples = 0;
     bool suspended = false;

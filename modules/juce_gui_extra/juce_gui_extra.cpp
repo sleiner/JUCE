@@ -32,6 +32,8 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
+
 #define JUCE_CORE_INCLUDE_OBJC_HELPERS 1
 #define JUCE_CORE_INCLUDE_COM_SMART_PTR 1
 #define JUCE_CORE_INCLUDE_JNI_HELPERS 1
@@ -157,7 +159,7 @@
  #endif
 
 //==============================================================================
-#elif JUCE_WINDOWS
+#elif JUCE_WINDOWS && !defined(JUCE_DISABLE_GRAPHICS)
  #include "native/juce_win32_ActiveXComponent.cpp"
  #include "native/juce_win32_HWNDComponent.cpp"
  #if JUCE_WEB_BROWSER
@@ -194,4 +196,5 @@
  juce::WindowsWebView2WebBrowserComponent::WindowsWebView2WebBrowserComponent (bool unloadWhenHidden,
                                                                                const WebView2Preferences&)
      : WebBrowserComponent (unloadWhenHidden) {}
+#endif
 #endif

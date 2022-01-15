@@ -95,12 +95,14 @@ using namespace Steinberg;
 #if JUCE_MAC
  extern void initialiseMacVST();
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
  #if ! JUCE_64BIT
   extern void updateEditorCompBoundsVST (Component*);
  #endif
 
  extern JUCE_API void* attachComponentToWindowRefVST (Component*, void* parentWindowOrView, bool isNSView);
  extern JUCE_API void detachComponentFromWindowRefVST (Component*, void* nsWindow, bool isNSView);
+#endif
 #endif
 
 #if JUCE_WINDOWS && JUCE_WIN_PER_MONITOR_DPI_AWARE
@@ -895,12 +897,14 @@ public:
                         trackProperties.name = toString (channelName);
                 }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
                 {
                     int64 colour;
                     if (list->getInt (Vst::ChannelContext::kChannelColorKey, colour) == kResultTrue)
                         trackProperties.colour = Colour (Vst::ChannelContext::GetRed ((uint32) colour),  Vst::ChannelContext::GetGreen ((uint32) colour),
                                                          Vst::ChannelContext::GetBlue ((uint32) colour), Vst::ChannelContext::GetAlpha ((uint32) colour));
                 }
+#endif
 
 
 
@@ -1155,6 +1159,7 @@ public:
     //==============================================================================
     IPlugView* PLUGIN_API createView (const char* name) override
     {
+#if !defined(JUCE_DISABLE_GRAPHICS)
         if (auto* pluginInstance = getPluginInstance())
         {
             const auto mayCreateEditor = pluginInstance->hasEditor()
@@ -1167,6 +1172,9 @@ public:
             if (mayCreateEditor)
                 return new JuceVST3Editor (*this, *audioProcessor);
         }
+#else
+        (void)name;
+#endif
 
         return nullptr;
     }
@@ -1487,6 +1495,7 @@ private:
         }
     }
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
     class EditorContextMenu  : public HostProvidedContextMenu
     {
     public:
@@ -2181,6 +2190,9 @@ private:
         //==============================================================================
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceVST3Editor)
     };
+#else
+    class JuceVST3Editor;
+#endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceVST3EditController)
 };

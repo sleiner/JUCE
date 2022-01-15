@@ -23,7 +23,7 @@
   ==============================================================================
 */
 
-#if JUCE_WINDOWS
+#if JUCE_WINDOWS && !defined(JUCE_DISABLE_GRAPHICS)
 
 namespace juce
 {

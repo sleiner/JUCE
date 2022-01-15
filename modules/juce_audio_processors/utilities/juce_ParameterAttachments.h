@@ -119,6 +119,7 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterAttachment)
 };
 
+#if !defined(JUCE_DISABLE_GRAPHICS)
 //==============================================================================
 /** An object of this class maintains a connection between a Slider and a
     plug-in parameter.
@@ -247,5 +248,6 @@ private:
     ParameterAttachment attachment;
     bool ignoreCallbacks = false;
 };
+#endif
 
 } // namespace juce
